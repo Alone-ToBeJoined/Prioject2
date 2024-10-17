@@ -12,15 +12,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float moveSpeed;
 
+    [SerializeField] private ColorType playerColor;
+
     [SerializeField] private float maxSlopeAngle;
 
     private float _horizontal;
+
     private float _vertical;
 
     private string currentAnimName;
 
     private RaycastHit _slopeHit;
 
+    public ColorType PlayerColor { get => playerColor; set => playerColor = value; }
 
     private void Awake()
     {
@@ -31,7 +35,6 @@ public class PlayerController : MonoBehaviour
     {
         if (GetInput())
         {
-          
             ChangeAnim(Constant.RunAnimName);
             if (OnSlope())
             {
@@ -47,11 +50,13 @@ public class PlayerController : MonoBehaviour
 
         else
         {
-
-           
             ChangeAnim(Constant.IdleAnimName);
             rb.velocity = Vector3.zero;
         }
+
+        //dung nhan vat khi het gach
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
     }
 
     #region ChangeAnim
@@ -64,7 +69,6 @@ public class PlayerController : MonoBehaviour
             currentAnimName = animName;
             anim.SetTrigger(animName);
         }
-
     }
 
     #endregion
@@ -113,4 +117,10 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
+    private void StopMove()
+    {
+
+    }
 }
+

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,6 +9,8 @@ public class StackingObject : MonoBehaviour
     [SerializeField] Transform playerVisual;
     [SerializeField] private GameObject BrickPrefabs;
     [SerializeField] private Transform brickListParent;
+    [SerializeField] private PlayerController playerController;
+    
 
     private List<GameObject> bricks = new List<GameObject>();
 
@@ -30,13 +33,26 @@ public class StackingObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("GoundBricks"))
+
+        Brick brick = other.GetComponent<Brick>();
+
+        if (other.CompareTag("GoundBricks") && brick.colorType == playerController.PlayerColor)
         {
-            Destroy(other.gameObject);
-            GameObject newBricks = Instantiate(BrickPrefabs, brickListParent);
-            AddBrick(newBricks);
+                 brick.OnDespawn();
+                Destroy(other.gameObject);
+                GameObject newBricks = Instantiate(BrickPrefabs, brickListParent);
+                AddBrick(newBricks);
+        }
+
+        if (other.CompareTag("StairLayer"))
+        {
+            if (bricks.Count > 0)
+            {
+                GameObject removeBrick = bricks[bricks.Count - 1];
+                bricks.RemoveAt(bricks.Count - 1);
+                Destroy(removeBrick);
+            }
         }
     }
-
-
+   
 }

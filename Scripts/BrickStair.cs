@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class BrickStair : MonoBehaviour
 {
-    GameObject objectToActive;
+    [SerializeField] ColorSO colorData;
+    [SerializeField] ColorType brickStairColor;
+    [SerializeField] MeshRenderer meshRenderer;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            objectToActive.SetActive(true);
+            Debug.Log("collided");
+            if (brickStairColor != other.GetComponent<PlayerController>().PlayerColor)
+            {
+                //doi mau
+                meshRenderer.material = colorData.GetMaterial(other.GetComponent<PlayerController>().PlayerColor);
+
+                //giam gach
+
+            }
         }
     }
 }

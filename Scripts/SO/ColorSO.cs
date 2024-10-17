@@ -5,6 +5,7 @@ using UnityEngine;
 public class ColorSO : ScriptableObject
 {
     public List<Material> materials;
+    public ColorType brickColor;
 
     public Material GetMaterial(ColorType colorType)
     {
